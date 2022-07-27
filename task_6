@@ -1,0 +1,30 @@
+Created a new file in /root/yuriikit.shardnet.near/scripts/ping.sh
+	
+#!/bin/sh
+# Ping call to renew Proposal added to crontab
+
+export NEAR_ENV=shardnet
+export LOGS=/root/yuriikit.shardnet.near/logs
+export POOLID=yuriinear
+export ACCOUNTID=yuriikit
+echo "---" >> $LOGS/all.log
+date >> $LOGS/all.log
+near call $POOLID.factory.shardnet.near ping '{}' --accountId $ACCOUNTID.shardnet.near --gas=300000000000000 >> $LOGS/all.log
+near proposals | grep $POOLID >> $LOGS/all.log
+near validators current | grep $POOLID >> $LOGS/all.log
+near validators next | grep $POOLID >> $LOGS/all.log
+
+
+Created a new crontab that runs every 5 minutes:
+crontab -e
+0 */2 * * * sh /root/scripts/ping.sh
+
+List of crontabs:
+crontab -l
+
+Looked through the logs:
+cat /root/yuriikit.shardnet.near/logs/all.log
+
+Ping is performed periodically, every 5 minutes.
+
+My staking pool -https://explorer.shardnet.near.org/accounts/yuriinear.factory.shardnet.near
